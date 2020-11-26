@@ -1,6 +1,6 @@
 {
-    "host": "3.17.227.193",
-    "user": "remoteq",
-    "password": "remadmin13",
+    "host": "192.168.0.108",
+    "user": "dox",
+    "password": "Tfsadmin13",
     "database": "dox"
 }
