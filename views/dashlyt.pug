@@ -1,0 +1,77 @@
+doctype html
+html.h-100
+    head
+        link(rel="stylesheet", href="/bootstrap.min.css")
+        //- link(rel="stylesheet", href="/main.css")
+        script(src="/jquery.min.js")
+        script(src="/bootstrap.min.js")
+        script(src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=85qvp1e1c9kglpx7xy5ijsnujfc4sa5fryamuend8qc40dn6")
+        script(src="/tinymce.conf.js")
+        script(src="/my.js")
+        //- script(src="bootstrap.bundle.min.js")
+        style(type='text/css').
+            .foot {
+                position: fixed;
+                width: 100%;
+                left: 0;
+                bottom: 0;
+                text-align: center;
+            }
+            .tlnk {
+                margin-top: 20px;
+            }
+            .sidenav-active {
+                background-color: #9E93AD;
+            }
+        block head
+
+    body.w-100.h-100
+        header
+            nav.navbar.navbar-expand-lg.bg-dark
+                a.navbar-brand(href='/')
+                    img.d-inline-block.align-top(src='/images/logo.svg', width='40', height='40', alt='')
+                button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+                    span.navbar-toggler-icon
+                #navbarSupportedContent.collapse.navbar-collapse
+                    ul.navbar-nav.mr-auto
+                        li.nav-item.active
+                            a.nav-link(href='/') Home
+                        li.nav-item
+                            a.nav-link(href='/dashboard') Dashboard
+                        li.nav-item
+                            a.nav-link(href='/login') Login
+                        li.nav-item
+                            a.nav-link(href='/account') My Account
+        .container-fluid.h-100
+            .row
+                nav.col-md-2.d-md-block.bg-light.sidebar.h-100
+                    .sidebar-sticky
+                        ul.nav.flex-column
+                            li.nav-item.tlnk
+                                a.nav-link.active(href='/dashboard/#')
+                                    svg.feather.feather-home(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                                        path(d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z')
+                                        polyline(points='9 22 9 12 15 12 15 22')
+                                    |               Dashboard 
+                                    span.sr-only (current)
+                            //- li.nav-item
+                            //-     a.nav-link(href='/dashboard/documents')
+                            //-         svg.feather.feather-file(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                            //-             path(d='M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z')
+                            //-             polyline(points='13 2 13 9 20 9')
+                            //-         |               Documents
+                            li.nav-item
+                                a.nav-link(href='/dashboard/boxes')
+                                    svg.feather.feather-layers(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                                        polygon(points='12 2 2 7 12 12 22 7 12 2')
+                                        polyline(points='2 17 12 22 22 17')
+                                        polyline(points='2 12 12 17 22 12')
+                                    |               DoxBoxes
+                main.col-md-9.ml-sm-auto.col-lg-10.px-4.h-100(role='main')
+                    .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.border-bottom
+                        h1 #{pagevars.user.username}'s Dashboard
+                    block dashcontent
+
+            div.foot
+                footer
+                    p.text-center Copyright 2019 © Walker Price

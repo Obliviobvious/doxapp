@@ -1,0 +1,37 @@
+extends dashlyt
+
+block head
+    title #{pagevars.title}
+    style.
+        .dashform {
+            display: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .rbtn {
+            margin-left: 30px;
+        }
+        .card-link {
+            margin-left: 0px !important;
+        }
+
+block dashcontent
+    h2 #{pagevars.gname}
+    if pagevars.perm.w
+        .border-bottom.p-2
+            button.btn.btn-primary(id="cdocbutton") Create Document +
+            br
+            .dashform.card.hidden.w-50.bg-light(id="cdocform")
+                .card-body.text-center
+                    form(method="post", action="/dashboard/boxes/" + pagevars.boxid +  "/groups/" + pagevars.gid + "/documents")
+                        label Document Name
+                        input.form-control.d-block.mx-auto.w-75(type="text", name="docname", placeholder="Document Name")
+                        br
+                        button.btn.btn-success.form-control.w-50(type="submit") Create Document
+    br
+    each d in pagevars.docs
+        .card.card-body
+            h5.card-title #{d.docname}
+            if pagevars.perm.r
+                a.card-link(href=`/dashboard/boxes/` + pagevars.boxid + '/groups/' + pagevars.gid + '/documents/' + d.docid) View Document
+        br

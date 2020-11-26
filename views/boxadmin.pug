@@ -1,0 +1,217 @@
+extends dashlyt
+
+block head
+    title #{pagevars.title}
+    style.
+        .dashform {
+            display: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .rbtn {
+            margin-left: 30px;
+        }
+        .card-link {
+            margin-left: 0px !important;
+        }
+
+block dashcontent
+    .border-bottom.p-2
+        h2 #{pagevars.cbox.boxname}
+        button.btn.btn-primary(id="cgroupbutton") Create Group +
+        button.btn.btn-primary.rbtn(id="crolebutton") Create Role +
+        button.btn.btn-warning.rbtn(id="joinbutton") Edit
+        button.btn.btn-danger.rbtn(id="createbutton") Delete
+        br
+        .dashform.card.hidden.w-50.bg-light(id="cboxform")
+            .card-body.text-center
+                form(method="post", action=`/dashboard/boxes/` + pagevars.cbox.boxid)
+                    input(type='hidden', name='_method', value='delete')
+                    label Are you sure you want to permanently delete this box? Type yes if so.
+                    input.form-control.d-block.mx-auto.w-75(type="text", name="boxname", placeholder="")
+                    br
+                    label DoxBox Secret
+                    input.form-control.d-block.mx-auto.w-75(type="password", name="secret", placeholder="Box Secret")
+                    br
+                    button.btn.btn-danger.form-control.w-50(type="submit") Delete Box
+        .dashform.card.hidden.w-50.bg-light(id="jboxform")
+            .card-body.text-center
+                form(method="post", action=`/dashboard/boxes/` + pagevars.cbox.boxid)
+                    input(type='hidden', name='_method', value='patch')
+                    label DoxBox Name 
+                    input.form-control.d-block.mx-auto.w-75(type="text", name="boxname", placeholder="Box Name")
+                    br
+                    label DoxBox Secret
+                    input.form-control.d-block.mx-auto.w-75(type="password", name="secret", placeholder="Box Secret")
+                    br
+                    button.btn.btn-success.form-control.w-50(type="submit") Commit Changes
+        .dashform.card.hidden.w-50.bg-light(id="croleform")
+            .card-body.text-center
+                form(method="post", action=`/dashboard/boxes/` + pagevars.cbox.boxid + '/roles')
+                    label Role Name
+                    input.form-control.d-block.mx-auto.w-75(type="text", name="rolename", placeholder="Role Name")
+                    br
+                    label Linked Group
+                    input.form-control.d-block.mx-auto.w-75(type="text", name="linkedgroup", placeholder="Group Name")
+                    br
+                    label Permissions: create/view/edit/delete (Ex. 've' or 'cved' or 'v')
+                    input.form-control.d-block.mx-auto.w-75(type="text", name="permissions", placeholder="Permissions")
+                    br
+                    button.btn.btn-success.form-control.w-50(type="submit") Create Role
+        .dashform.card.hidden.w-50.bg-light(id="cgroupform")
+            .card-body.text-center
+                form(method="post", action=`/dashboard/boxes/` + pagevars.cbox.boxid + '/groups')
+                    label Group Name
+                    input.form-control.d-block.mx-auto.w-75(type="text", name="groupname", placeholder="Group Name")
+                    br
+                    button.btn.btn-success.form-control.w-50(type="submit") Create Group
+
+    .container.w-75.mx-auto.p-2
+        h3.text-center Groups
+        table.table.table-light.text-center.table-striped.table-bordered.mt-3
+            thead
+                tr
+                    th Group Name
+                    th Actions
+            tbody
+                each group in pagevars.bgroups
+                    tr
+                        td #{group.groupname}
+                        td
+                            a.btn.btn-primary(href='/dashboard/boxes/' + pagevars.cbox.boxid + '/groups/' + group.groupid + '/documents') View
+                            button.btn.btn-warning.rbtn(type='button', data-toggle='modal', data-target='#eg' + group.groupid) Edit
+                            .modal.fade(id='eg' + group.groupid, tabindex='-1', role='dialog', aria-labelledby='eglbl', aria-hidden='true')
+                                .modal-dialog
+                                    .modal-content
+                                        .modal-header
+                                            h5#elbl.modal-title Edit Group
+                                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                span(aria-hidden='true') ×
+                                        .modal-body
+                                            form(method='post', action='/dashboard/boxes/' + pagevars.cbox.boxid + '/groups/' + group.groupid)
+                                                input(type='hidden', name='_method', value='patch')
+                                                .form-group
+                                                    label.col-form-label Group Name
+                                                    input#egroupname.form-control(type='text', name='newgroupname', placeholder='New Group Name', value=group.groupname)
+                                                button.btn.btn-success(type='sumbit') Save Changes
+                                        .modal-footer
+                                            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                            button.btn.btn-danger.rbtn(type='button', data-toggle='modal', data-target='#dg' + group.groupid) Delete
+                            .modal.fade(id='dg' + group.groupid, tabindex='-1', role='dialog', aria-labelledby='dglbl', aria-hidden='true')
+                                .modal-dialog
+                                    .modal-content
+                                        .modal-header
+                                            h5#dlbl.modal-title Delete Group
+                                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                span(aria-hidden='true') ×
+                                        .modal-body
+                                            form(method='post', action='/dashboard/boxes/' + pagevars.cbox.boxid + '/groups/' + group.groupid)
+                                                input(type='hidden', name='_method', value='delete')
+                                                p Are you sure you want to permanently delete this group and all documents contained within it?
+                                                button.btn.btn-danger(type='sumbit') Delete
+                                        .modal-footer
+                                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+        br
+        h3.text-center Roles
+        table.table.table-light.text-center.table-striped.table-bordered.mt-3
+            thead
+                tr
+                    th Role Name
+                    th Linked Group
+                    th Permissions
+                    th Actions
+            tbody
+                each role in pagevars.broles
+                    tr
+                        td #{role.rolename}
+                        td #{role.groupname}
+                        td #{role.permissions}
+                        td
+                            button.btn.btn-warning(type='button', data-toggle='modal', data-target='#er' + role.roleid) Edit
+                            .modal.fade(id='er' + role.roleid, tabindex='-1', role='dialog', aria-labelledby='erlbl', aria-hidden='true')
+                                .modal-dialog
+                                    .modal-content
+                                        .modal-header
+                                            h5#erlbl.modal-title Edit Role
+                                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                span(aria-hidden='true') ×
+                                        .modal-body
+                                            form(method='post', action='/dashboard/boxes/' + pagevars.cbox.boxid + '/roles/' + role.roleid)
+                                                input(type='hidden', name='_method', value='patch')
+                                                .form-group
+                                                    label.col-form-label Role Name
+                                                    input#erolename.form-control(type='text', name='newrolename', placeholder='Role Name', value=role.rolename)
+                                                    label.col-form-label Linked Group
+                                                    select.form-control#newlinkedgroupdd(name="newlinkedgroup")
+                                                        each group in pagevars.bgroups
+                                                            option(value=group.groupname) #{group.groupname}
+                                                    label.col-form-label Permissions
+                                                    select.form-control#newpermissionsdd(name="newpermissions")
+                                                        option(value="Read") Read
+                                                        option(value="ReadWrite") ReadWrite
+                                                button.btn.btn-success(type='sumbit') Save Changes
+                                        .modal-footer
+                                            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                            button.btn.btn-danger.rbtn(type='button', data-toggle='modal', data-target='#dr' + role.roleid) Delete
+                            .modal.fade(id='dr' + role.roleid, tabindex='-1', role='dialog', aria-labelledby='drlbl', aria-hidden='true')
+                                .modal-dialog
+                                    .modal-content
+                                        .modal-header
+                                            h5#drlbl.modal-title Delete Group
+                                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                span(aria-hidden='true') ×
+                                        .modal-body
+                                            form(method='post', action='/dashboard/boxes/' + pagevars.cbox.boxid + '/roles/' + role.roleid)
+                                                input(type='hidden', name='_method', value='delete')
+                                                p Are you sure you want to permanently delete this role?
+                                                button.btn.btn-danger(type='sumbit') Delete
+                                        .modal-footer
+                                            button.btn.btn-primary(type='button', data-dismiss='modal') Close
+        br
+        h3.text-center Members
+        table.table.table-light.text-center.table-striped.table-bordered.mt-3
+            thead
+                tr
+                    th Username
+                    th Role
+                    th Actions
+            tbody
+                each member in pagevars.bmembers
+                    tr
+                        td #{member.username}
+                        td #{member.rolename}
+                        td
+                            button.btn.btn-warning(type='button', data-toggle='modal', data-target='#em' + member.userid) Edit
+                            .modal.fade(id='em' + member.userid, tabindex='-1', role='dialog', aria-labelledby='emlbl', aria-hidden='true')
+                                .modal-dialog
+                                    .modal-content
+                                        .modal-header
+                                            h5#emlbl.modal-title Edit Member
+                                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                span(aria-hidden='true') ×
+                                        .modal-body
+                                            form(method='post', action='/dashboard/boxes/' + pagevars.cbox.boxid + '/members/' + member.userid)
+                                                input(type='hidden', name='_method', value='patch')
+                                                .form-group
+                                                    label.col-form-label Role
+                                                    select.form-control#newroledd(name="newrole")
+                                                        each role in pagevars.broles
+                                                            option.dropdown-item(value=role.rolename) #{role.rolename}
+                                                button.btn.btn-success(type='sumbit') Save Changes
+                                        .modal-footer
+                                            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                            button.btn.btn-danger.rbtn(type='button', data-toggle='modal', data-target='#dm' + member.userid) Remove
+                            .modal.fade(id='dm' + member.userid, tabindex='-1', role='dialog', aria-labelledby='dmlbl', aria-hidden='true')
+                                .modal-dialog
+                                    .modal-content
+                                        .modal-header
+                                            h5#dmlbl.modal-title Remove Member
+                                            button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                                span(aria-hidden='true') ×
+                                        .modal-body
+                                            form(method='post', action='/dashboard/boxes/' + pagevars.cbox.boxid + '/members/' + member.userid)
+                                                input(type='hidden', name='_method', value='delete')
+                                                p Are you sure you want to permanently remove this user from the DoxBox?
+                                                button.btn.btn-danger(type='sumbit') Remove
+                                        .modal-footer
+                                            button.btn.btn-primary(type='button', data-dismiss='modal') Close

@@ -1,0 +1,32 @@
+extends layout
+
+block head
+    title #{pagevars.title}
+    style.
+        .iflex{
+            height: 80vh;
+            display: inline-flex;
+        }
+        .my-auto {
+            margin: auto;
+        }
+block content
+    .container.iflex
+        .containter.col-6.mx-auto.my-auto(id='loginbox')
+            h1.text-center Login
+            if pagevars.authfailed
+                .alert.alert-danger Incorrect Username or Password
+            form(method="post", action='/login')
+                label Username
+                input.form-control(id="username", name='username', type='text', placeholder='Username')
+                br
+                label Password
+                input.form-control(id="password", name='password', type='password', placeholder='Password')
+                br
+                div.container.row
+                span.col-sm
+                    button.btn.btn-success(type="submit") Login
+                span.col-sm or 
+                    a.mx-auto(href='/signup') Create an Account
+                span.col-sm
+                    a(href='/recovery') Forgot Password?

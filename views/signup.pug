@@ -1,0 +1,30 @@
+extends layout
+
+block head
+    title #{pagevars.title}
+
+block content
+    div.container
+        div.containter.col-6.mx-auto(id='signupbox')
+            h1.text-center Sign Up
+            form(method="post", action='/signup')
+                label Username
+                input.form-control(id="username", name='username', type='text', placeholder='Username')
+                br
+                label Email
+                input.form-control(id="email", name='email', type='text', placeholder='Email')
+                br
+                label First Name
+                input.form-control(id="firstname", name='firstname', type='text', placeholder='First Name')
+                br
+                label Last Name
+                input.form-control(id="lastname", name='lastname', type='text', placeholder='Last Name')
+                br
+                label Password
+                input.form-control(id="password", name='password', type='password', placeholder='Password')
+                br
+                label Confirm Password
+                input.form-control(id="verifypass", name='verifypass', type='password', placeholder='Confirm Password')
+                br
+                span
+                    button.btn.btn-success(type="submit") Create Your Account

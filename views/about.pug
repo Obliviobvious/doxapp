@@ -1,0 +1,56 @@
+extends layout
+
+block head
+    title About Dox
+    style(type='text/css').
+        .footer-margin {
+            height: 60px;
+        }
+        .cdiv {
+            height: 90vh;
+            display: inline-flex;
+            background-size: cover;
+        }
+        .my-auto {
+            margin: auto;
+        }
+        .bold {
+            font-weight: 16;
+        }
+        p {
+            font-size: 16px !important;
+        }
+
+block content
+    .cdiv.bg-light
+        .my-auto.w-75.bg-light
+            h1.cover-heading.text-center.mb-4 How does Dox work?
+            br
+            br
+            br
+            .row
+                .col-sm
+                    h3 DoxBoxes
+                    p.lead.text-center
+                        | DoxBoxes are how you will collaborate with other users to create and manage your documents.
+                        | Create your own DoxBox or join one to get started.
+                .col-sm    
+                    h3 Members
+                    p.lead.text-center
+                        | When you join a DoxBox you become a member, but that box won't show up until you get delegated to a role.
+                        | Delegate a member to a role to give them access to documents within your own DoxBox.
+                .col-sm
+                    h3 Roles
+                    p.lead.text-center
+                        | Roles are simply containers for members. Roles can be linked to a group to give all members delegated to the
+                        | role access to that group. Permissions will need to be specified for users to interact with the group.
+            .row.w-75.mx-auto
+                .col-sm
+                    h3 Groups
+                    p.lead.text-center
+                        | Groups are containers for documents. Create multiple groups to segregate information within your DoxBox.
+                .col-sm
+                    h3 Documents
+                    p.lead.text-center
+                        | Documents are the heart of Dox. Use Dox to document your home or corporate network, reference policy or schematics,
+                        | and invite others to join!

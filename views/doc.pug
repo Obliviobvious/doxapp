@@ -1,0 +1,45 @@
+extends dashlyt
+
+block head
+    title #{pagevars.title}
+    style.
+        .dashform {
+            display: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .rbtn {
+            margin-left: 30px;
+        }
+        .card-link {
+            margin-left: 0px !important;
+        }
+
+block dashcontent
+    .border-bottom.p-2
+        h2 #{pagevars.doc.docname}
+        if pagevars.perm.w
+            button.btn.btn-primary(id="edocbtn") Edit
+            button.btn.btn-danger.rbtn(id="deldocbtn") Delete
+            br
+            .dashform.card.hidden.w-50.bg-light(id="deldocform")
+                .card-body.text-center
+                    form(method="post", action=`/dashboard/boxes/` + pagevars.boxid + '/groups/' + pagevars.gid + '/documents/' + pagevars.doc.docid)
+                        input(type="hidden", name="_method", value="delete")
+                        label Are you sure you want to permanently delete this document? Type yes if so.
+                        input.form-control.d-block.mx-auto.w-75(type="text", name="delsure", placeholder="")
+                        br
+                        button.btn.btn-danger.form-control.w-50(type="submit") Delete Document
+    if pagevars.perm.r
+        .container.w-90.mx-auto.p-2(id="vdocdiv")
+            .card.card-body
+                div.doc !{pagevars.doc.content}
+    if pagevars.perm.w
+        br
+        .dashform.hidden.container.w-90.mx-auto.p-2(id="edocform")
+            .card.card-body
+                form(method="post", action='/dashboard/boxes/' + pagevars.boxid + '/groups/' + pagevars.gid + '/documents/' + pagevars.doc.docid)
+                    input(type="hidden", name="_method", value="patch")
+                    textarea(name="dcontent", id="tmcetextarea") !{pagevars.doc.content}
+                    br
+                    button.btn.btn-success(type='sumbit') Save

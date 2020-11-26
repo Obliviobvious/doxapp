@@ -1,0 +1,57 @@
+extends dashlyt
+
+block head
+    title #{pagevars.title}
+    style.
+        .dashform {
+            display: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .rbtn {
+            margin-left: 30px;
+        }
+        .card-link {
+            margin-left: 0px !important;
+        }
+
+block dashcontent
+    .border-bottom.p-2
+        button.btn.btn-primary(id="createbutton") Create +
+        button.btn.btn-primary.rbtn(id="joinbutton") Join 
+        br
+        .dashform.card.hidden.w-50.bg-light(id="cboxform")
+            .card-body.text-center
+                form(method="post", action="/dashboard/boxes")
+                    label DoxBox Name (must be unique)
+                    input.form-control.d-block.mx-auto.w-75(type="text", name="boxname", placeholder="Box Name")
+                    br
+                    label DoxBox Secret
+                    input.form-control.d-block.mx-auto.w-75(type="password", name="secret", placeholder="Box Secret")
+                    br
+                    button.btn.btn-success.form-control.w-50(type="submit") Create Box
+        .dashform.card.hidden.w-50.bg-light(id="jboxform")
+            .card-body.text-center
+                form(method="post", action="/dashboard/boxes/join")
+                    label DoxBox Name
+                    input.form-control.d-block.mx-auto.w-75(type="text", name="boxname", placeholder="Box Name")
+                    br
+                    label DoxBox Secret
+                    input.form-control.d-block.mx-auto.w-75(type="password", name="secret", placeholder="Box Secret")
+                    br
+                    button.btn.btn-primary.form-control.w-50(type="submit") Join Box
+    br
+    h4 You've created #{pagevars.cboxes.length} boxes:
+    each cbox in pagevars.cboxes
+        .card.card-body
+            h5.card-title #{cbox.boxname}
+            a.card-link(href=`/dashboard/boxes/` + cbox.boxid) Admin Panel
+        br
+    br
+    h4 You have joined #{pagevars.jboxes.length} boxes:
+    each jbox in pagevars.jboxes
+        .card.card-body
+            h5.card-title #{jbox.boxname}
+            a.card-title(href=`/dashboard/boxes/` + jbox.boxid + '/groups/' + jbox.groupid + '/documents') View Documents
+        br
+
