@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'docker build -t obliviobvious/doxapp'
+                sh 'docker build -t obliviobvious/doxapp .'
                 sh 'docker images'
             }
         }
