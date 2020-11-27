@@ -1,0 +1,16 @@
+pipeline {
+    agent { dockerfile true }
+    stages {
+        stage('Build') { 
+            steps {
+                sh 'docker build -t obliviobvious/doxapp .'
+            }
+        }
+        stage('Publish') {
+            steps {
+                sh 'docker login -u <jenkins creds uname> -p <jenkins creds passwd>'
+                sh 'docker push obliviobvious/doxapp'
+            }
+        }
+    }
+}

@@ -13,6 +13,6 @@ RUN npm ci --only=production
 COPY . .
 
 # Expose service port
-EXPOSE 8080
+EXPOSE 80
 
 CMD [ "node", "app.js" ]
