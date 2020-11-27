@@ -1,9 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Build3') { 
+        stage('Build') { 
             steps {
-                sh 'echo building...'
+                sh 'docker build -t obliviobvious/doxapp'
+                sh 'docker images'
             }
         }
         stage('Publish') {
