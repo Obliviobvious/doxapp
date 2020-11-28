@@ -1,13 +1,17 @@
 node {
     def img
-
+    
     stages {
         stage('Build') {
-            img = docker.build('obliviobvious/doxapp')
+            steps {
+                img = docker.build('obliviobvious/doxapp')
+            }
         }
         stage('Publish') {
-            docker.withRegistry('', 'dockerhub-creds') {
-                img.push("1.${env.BUILD_ID}")
+            steps {
+                docker.withRegistry('', 'dockerhub-creds') {
+                    img.push("1.${env.BUILD_ID}")
+                }
             }
         }
         stage('Deploy') {
