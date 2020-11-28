@@ -1,22 +1,30 @@
-node {
-    def img
-    
+pipeline {
+
+    agent { dockerfile true }
+  
+    environment {
+        registry = "obliviobvious/doxapp"
+        dhcreds = 'dockerhub-creds'
+        img = ''
+    }
+  
     stages {
+        
         stage('Build') {
-            steps {
-                img = docker.build('obliviobvious/doxapp')
-            }
-        }
-        stage('Publish') {
-            steps {
-                docker.withRegistry('', 'dockerhub-creds') {
-                    img.push("1.${env.BUILD_ID}")
+            steps{
+                script {
+                    img = docker.build registry // + ":${BUILD_ID}"
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                sh 'echo "Running ./bgdeploy.sh ansible rollout script"'
+
+        stage('Publish') {
+            steps{
+                script {
+                    docker.withRegistry('', dhcreds) {
+                        img.push()
+                    }
+                }
             }
         }
     }

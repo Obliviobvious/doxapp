@@ -1,15 +1,25 @@
 pipeline {
+
     agent { dockerfile true }
+    
+    def img
+    
     stages {
-        stage('Build') { 
+        stage('Build') {
             steps {
-                sh 'docker build -t obliviobvious/doxapp .'
+                img = docker.build('obliviobvious/doxapp')
             }
         }
         stage('Publish') {
             steps {
-                sh 'docker login -u <jenkins creds uname> -p <jenkins creds passwd>'
-                sh 'docker push obliviobvious/doxapp'
+                docker.withRegistry('', 'dockerhub-creds') {
+                    img.push("1.${env.BUILD_ID}")
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'echo "Running ./bgdeploy.sh ansible rollout script"'
             }
         }
     }
