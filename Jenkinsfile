@@ -1,6 +1,4 @@
-pipeline {
-    agent { dockerfile true }
-
+node {
     def img
 
     stages {
