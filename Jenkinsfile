@@ -1,16 +1,15 @@
 pipeline {
-    agent any
+    agent { dockerfile true }
+
+    def img
+
     stages {
-        stage('Build') { 
-            steps {
-                sh 'docker build -t obliviobvious/doxapp .'
-                sh 'docker images'
-            }
+        stage('Build') {
+            img = docker.build('obliviobvious/doxapp')
         }
         stage('Publish') {
-            steps {
-                sh 'echo "docker login"'
-                sh 'echo "publishing (pushing to dockerhub)..."'
+            docker.withRegistry('', 'dockerhub-creds') {
+                img.push("1.${env.BUILD_ID}")
             }
         }
         stage('Deploy') {
