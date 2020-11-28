@@ -1,5 +1,7 @@
 pipeline {
   
+    agent any
+
     environment {
         registry = "obliviobvious/doxapp"
         dhcreds = 'dockerhub-creds'
