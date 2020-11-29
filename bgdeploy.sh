@@ -15,4 +15,4 @@ bg=("blue" "green")
 sshpass -p "Tfsadmin13" ssh -o StrictHostKeyChecking=no wprice@192.168.0.115 test -f /home/wprice/green/active
 inactive=${bg[$?]}
 ansible-playbook -i $ans/prod-$inactive $ans/deploy.yml
-sshpass -p "Tfsadmin13" ssh -o StrictHostKeyChecking=no wprice@192.168.0.115 /home/wprice/drainswitch.sh
+sshpass -p "Tfsadmin13" ssh -o StrictHostKeyChecking=no root@192.168.0.115 /home/wprice/drainswitch.sh
