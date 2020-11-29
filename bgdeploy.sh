@@ -9,4 +9,4 @@
 
 ans="/home/wprice/ansible"
 
-ansible-playbook -i $ans/prod $ans/lindeploy.yml
+ansible-playbook -i $ans/prod $ans/deploy.yml
