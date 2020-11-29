@@ -10,7 +10,7 @@ pipeline {
   
     stages {
         
-        stage('Build') {
+        stage("Build") {
             steps{
                 script {
                     img = docker.build registry // + ":${BUILD_ID}"
@@ -18,13 +18,19 @@ pipeline {
             }
         }
 
-        stage('Publish') {
+        stage("Publish") {
             steps{
                 script {
                     docker.withRegistry('', dhcreds) {
                         img.push()
                     }
                 }
+            }
+        }
+
+        stage ("Deploy") {
+            steps {
+                sh "./bgdeploy.sh"
             }
         }
     }
