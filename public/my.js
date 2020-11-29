@@ -17,7 +17,6 @@ $(document).ready(() => {
     var vdocdiv = $('#vdocdiv');
     var deldocbtn = $('#deldocbtn');
     var deldocform = $('#deldocform');
-    
 
     cboxbutton.click(() => {
         if (cboxform.hasClass('hidden')) {

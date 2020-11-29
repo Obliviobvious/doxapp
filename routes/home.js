@@ -11,12 +11,14 @@ router.get('/', function(req, res) {
         jwt.verify(atoken, envars.jwtkey, (err, user) => {
             if (err) {
                 var pagevars = {
-                    title: 'Dox Home'
+                    title: 'Dox Home',
+                    hostip: process.env.ip
                 }
                 res.render('home', { pagevars });
             } else {
                 var pagevars = {
                     title: 'Dox Home',
+                    fleetcolor: (process.env.ip == "192.168.0.107") ? "Blue" : "Green",
                     user: user
                 }
                 res.render('home', { pagevars });
@@ -24,7 +26,8 @@ router.get('/', function(req, res) {
         });
     } else {
         var pagevars = {
-            title: 'Dox Home'
+            title: 'Dox Home',
+            hostip: process.env.ip
         }
         res.render('home', { pagevars });
     }

@@ -51,6 +51,7 @@ app.use('/account', accountRoutes);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
+    console.log(`IP from ENV: ${process.env.ip}`);
 });
 
 module.exports = app;
