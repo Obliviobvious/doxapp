@@ -23,6 +23,7 @@ pipeline {
                 script {
                     docker.withRegistry('', dhcreds) {
                         img.push("1.0.${env.BUILD_ID}")
+                        img.push("latest")
                     }
                 }
             }
