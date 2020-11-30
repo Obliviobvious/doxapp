@@ -22,7 +22,7 @@ pipeline {
             steps{
                 script {
                     docker.withRegistry('', dhcreds) {
-                        img.push("${env.BUILD_ID}")
+                        img.push("1.0.${env.BUILD_ID}")
                     }
                 }
             }
